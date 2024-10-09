@@ -1,13 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Main;
 
-/**
- *
- * @author tuori
- */
+import javax.swing.JOptionPane;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+
 public class Main {
-    
+
+    public static void main(String[] args) {
+        FlatDarkLaf.install();
+        JOptionPane.showMessageDialog(null, "hola");
+        final String ruta = "C:/Users/lostw/OneDrive/Documentos/GitHub/Movimiento-tactico-FIFA/FIFA/assets/CSV.csv";
+    }
 }
