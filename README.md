@@ -2,6 +2,6 @@
 Laboratorio acerca de grafos
 # Miembros:
 [Juanangel Martinez](#Juanangel-Martinez)
-[Juanangel Martinez](#Vivian-Buelvas)
-[Juanangel Martinez](#Santiago-Fernandez)
-[Juanangel Martinez](#Laura-Gonzalez)
+[Vivian Buelvas](#Vivian-Buelvas)
+[Santiago Fernandez](#Santiago-Fernandez)
+[Laura-Gonzalez](#Laura-Gonzalez)
