@@ -9,10 +9,22 @@ package Jugadores;
  * @author tuori
  */
 public class Jugador {
+    
+    private String nombre;
     private int velocidad;
     private int remate ;
     private int posecion;
     private int defensa = (remate + posecion)/ 2;
     public boolean balon;
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    
+    
     
 }

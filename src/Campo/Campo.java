@@ -9,13 +9,13 @@ package Campo;
  * @author tuori
  */
 public class Campo {
-
+    
     private int marcador;
     private int tiempo;
     private boolean ganador;
     private int turno;
-    Equipo_A equip_A;
-    Equipo_B equipo_B;
+    private Grafo equipoA;
+    private Grafo equipoB;
     
 
 }
