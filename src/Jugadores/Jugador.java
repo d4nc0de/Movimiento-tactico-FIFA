@@ -41,6 +41,10 @@ public class Jugador {
         return nombre;
     }
 
+    public void setBalon(boolean balon) {
+        this.balon = balon;
+    }
+
     public int getVelocidad() {
         return velocidad;
     }

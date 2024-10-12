@@ -10,27 +10,12 @@ package Campo;
  */
 public class Campo {
     
-    private int marcador;
-    private int tiempo;
+    private int marcadora;
+    private int marcadorb;
     private boolean ganador;
     private int turno;
-    private Grafo equipoA;
-    private Grafo equipoB;
-    private  int estrategia ;
-
-    public Campo(int marcador, int tiempo, boolean ganador, int turno, Grafo equipoA, Grafo equipoB, int estrategia) {
-        this.marcador = marcador;
-        this.tiempo = tiempo;
-        this.ganador = ganador;
-        this.turno = turno;
-        this.equipoA = equipoA;
-        this.equipoB = equipoB;
-        this.estrategia = estrategia;
-    }
-
-
-    
-    
-    
+    private final int[][] equipoa = new int [][] ;
+    private final int[][] equipob = new int [][] ;
+    private final int[][] cestrategia = new int [][] ;
 
 }
