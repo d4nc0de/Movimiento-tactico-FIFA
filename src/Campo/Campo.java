@@ -16,6 +16,21 @@ public class Campo {
     private int turno;
     private Grafo equipoA;
     private Grafo equipoB;
+    private  int estrategia ;
+
+    public Campo(int marcador, int tiempo, boolean ganador, int turno, Grafo equipoA, Grafo equipoB, int estrategia) {
+        this.marcador = marcador;
+        this.tiempo = tiempo;
+        this.ganador = ganador;
+        this.turno = turno;
+        this.equipoA = equipoA;
+        this.equipoB = equipoB;
+        this.estrategia = estrategia;
+    }
+
+
+    
+    
     
 
 }
