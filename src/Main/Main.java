@@ -24,7 +24,7 @@ public class Main {
 
 
         Grafo g = new Grafo();
-       boolean w = false;
+        boolean w = false;
         Scanner sc = new Scanner(System.in);
         ArrayList<Jugador> equipo1 = new ArrayList(); //Barca
         ArrayList<Jugador> equipo2 = new ArrayList(); //Madrid
@@ -76,7 +76,6 @@ public class Main {
         equipo2.add(p20);
         equipo2.add(p21);
         equipo2.add(p22);
-        
 
         //Seleccion de la estrategia para formar el grafo    
         int estrategia = 0;
@@ -86,20 +85,25 @@ public class Main {
                 + "3. Presion [Velocidad] (4-4-2).\n"
                 + "4. Predeterminada");
         estrategia = sc.nextInt();
-        g.estrategias(estrategia, equipo1);
+        int[][] barca = new int[equipo1.size()][equipo1.size()];
+
+        barca = g.estrategiasP(estrategia, equipo1);
+
         System.out.println("Selecciona la estrategia del rival: \n"
                 + "1. Posecion (4-3-3) \n"
                 + "2. ContraGolpe[Remate] (5-3-2)\n "
                 + "3. Presion [Velocidad] (4-4-2).\n"
                 + "4. Predeterminada");
         estrategia = sc.nextInt();
-        g.estrategias(estrategia, equipo2);
+        int[][] madrid = new int[equipo2.size()][equipo2.size()];
         
-        while(w==false){
-            System.out.println("Inicio de partido");
-            
-        }
-    }
-    
+        madrid = g.estrategiasP(estrategia, equipo2);
+        System.out.println("------------");
+        
+        int n  = equipo1.size();
+        int[][] partido = new int[n*2][n*2];
+        g.unioneP(barca, madrid); //Crea la matriz de abyacencia con ambos equipos
+        
 
+    }
 }
