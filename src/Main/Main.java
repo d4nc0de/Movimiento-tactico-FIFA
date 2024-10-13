@@ -1,9 +1,7 @@
 package Main;
 
 import Archivo.CSV;
-import Campo.Campo;
-import Campo.Grafo;
-import Campo.Nodo;
+import Campo.*;
 import Jugadores.Jugador;
 //import javax.swing.JOptionPane;
 
@@ -18,17 +16,37 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        String ruta1 = "C:\\Users\\lostw\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA\\assets\\equipo1.csv";
-        String ruta2 = "C:\\Users\\lostw\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA\\assets\\equipo2.csv";
+
+        // Rutas de los archivos CSV de cada equipo.
+        String ruta1 = "C:\\Users\\tuori\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA_1\\assets\\equipo1.csv";
+        String ruta2 = "C:\\Users\\tuori\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA_1\\assets\\equipo2.csv";
+
+        // Inicializar las instancias para leer los equipos desde los CSV.
         CSV tabla1 = new CSV();
         CSV tabla2 = new CSV();
-        ArrayList<Jugador> equipo1 = new ArrayList();
-        ArrayList<Jugador> equipo2 = new ArrayList();
-        equipo1= tabla1.aggEquipo(ruta1);
-        equipo2= tabla2.aggEquipo(ruta2);
-        Campo campo= new Campo();
-        campo.armarGrafoA(equipo1);
-        //campo.armarGrafoB(equipo2);
+
+        // Cargar los equipos en listas de jugadores.
+        ArrayList<Jugador> equipo1 = tabla1.aggEquipo(ruta1);
+        ArrayList<Jugador> equipo2 = tabla2.aggEquipo(ruta2);
+
+        // Crear el campo donde se armarán los grafos.
+        Campo campo = new Campo();
+
+        // Construir los grafos de cada equipo por separado.
+        Grafo grafoEquipoA = campo.armarGrafoP(equipo1,true);
+        Grafo grafoEquipoB = campo.armarGrafoP(equipo2,false);
+
+        // Combinar ambos grafos en uno solo.
+        Grafo grafoCombinado = campo.unioneGrafo(grafoEquipoA, grafoEquipoB);
+
+        // Imprimir el grafo combinado para verificar.
+        System.out.println("Grafo combinado:");
+        grafoCombinado.imprimir();
+    
+
+
+        
+        
         
         /*
         boolean w = false;

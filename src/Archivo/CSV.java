@@ -26,8 +26,10 @@ public class CSV {
             partes = linea.split(",");
             //imprimirLinea();
             Jugador jugador;
+            
             jugador = new Jugador(partes[0], Integer.parseInt(partes[1]), Integer.parseInt(partes[2]), Integer.parseInt(partes[3]), false);
             equipo.add(jugador);
+
         }
 //        for (int i = 0; i < equipo.size(); i++) {
 //            System.out.println(equipo.get(i).toString());

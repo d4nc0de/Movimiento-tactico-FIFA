@@ -5,6 +5,7 @@
 package Campo;
 
 import Jugadores.Jugador;
+import Campo.*;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,55 +26,120 @@ public class Campo {
     private final int[][] equipob = new int [][] ;
     private final int[][] cestrategia = new int [][] ;
      */
-    public void armarGrafoA(ArrayList<Jugador> equipo) {
-        equipoA = new Grafo();
-        for (int i = 0; i < equipo.size(); i++) {
-            Nodo nodo = new Nodo(equipo.get(i));
-            equipoA.addNodo(nodo);
+    // Método para armar grafos para cada equipo por separado
+    public Grafo armarGrafoP(ArrayList<Jugador> equipo, boolean Equipo) {
+        Grafo grafo = new Grafo(equipo.size());  // Grafo con tamaño dinámico.
+        for (Jugador jugador : equipo) {
+            Nodo nodo = new Nodo(jugador);
+            grafo.addNodo(nodo);
         }
 
-        ArrayList<Nodo> lista;
-        lista = equipoA.getListaAdyacencia();
-        int[][] estrategia;
-        estrategia = equipoA.matrizEstrategiasP(1, equipo);
+        int[][] estrategia = grafo.matrizEstrategiasP(1, equipo);
+        ArrayList<Nodo> lista = grafo.getListaAdyacencia();
 
-        // Recorremos la matriz para conectar nodos
+        // Conectar nodos según la estrategia
         for (int i = 0; i < estrategia.length; i++) {
             for (int j = 0; j < estrategia[i].length; j++) {
                 if (estrategia[i][j] == 1) {
-                    equipoA.conectarNodo(lista.get(i), lista.get(j));
-                    System.out.println("Se ha conectado el nodo del jugador " + lista.get(i).getJugador().getNombre() + " con el jugador " + lista.get(j).getJugador().getNombre());
+                    grafo.conectarNodo(lista.get(i), lista.get(j));
+                    System.out.println("Se ha conectado "
+                            + lista.get(i).getJugador().getNombre() + " con "
+                            + lista.get(j).getJugador().getNombre());
                 }
             }
         }
-        equipoA.imprimir();
-    }
-    
-    public void armarGrafoB(ArrayList<Jugador> equipo) {
-        equipoB = new Grafo();
-        for (int i = 0; i < equipo.size(); i++) {
-            Nodo nodo = new Nodo(equipo.get(i));
-            equipoB.addNodo(nodo);
-        }
 
-        ArrayList<Nodo> lista;
-        lista = equipoB.getListaAdyacencia();
-        int[][] estrategia;
-        estrategia = equipoB.matrizEstrategiasP(1, equipo);
+        grafo.imprimir();
 
-        // Recorremos la matriz para conectar nodos
-        for (int i = 0; i < estrategia.length; i++) {
-            for (int j = 0; j < estrategia[i].length; j++) {
-                if (estrategia[i][j] == 1) {
-                    equipoB.conectarNodo(lista.get(i), lista.get(j));
-                    System.out.println("Se ha conectado el nodo del jugador " + lista.get(i).getJugador().getNombre() + " con el jugador " + lista.get(j).getJugador().getNombre());
-                }
-            }
+        // Asignar el grafo correspondiente
+        if (Equipo) {
+            equipoA = grafo;
+            return equipoA;
+        } else {
+            equipoB = grafo;
+            return equipoB;
         }
-        equipoB.imprimir();
     }
 
-    public void iniciop(ArrayList<Jugador> equipoA, ArrayList<Jugador> equipoB, int[][] matrizPartido) {
+public Grafo unioneGrafo(Grafo equipoA, Grafo equipoB) {
+    int n = equipoA.getListaAdyacencia().size();  // Tamaño del equipo (11).
+    Grafo grafoCombinado = new Grafo(n * 2);  // Grafo combinado (22 nodos).
+
+    // Copiar los nodos de los equipos A y B al grafo combinado.
+    for (int i = 0; i < n; i++) {
+        grafoCombinado.addNodo(equipoA.getListaAdyacencia().get(i));
+        grafoCombinado.addNodo(equipoB.getListaAdyacencia().get(i));
+    }
+
+    // Crear la matriz combinada 22x22.
+    int[][] campo = new int[n * 2][n * 2];
+
+    // Copiar las matrices de adyacencia de A y B en la matriz combinada.
+    int[][] equipoa = equipoA.getMatrizAdyacencia();
+    int[][] equipob = equipoB.getMatrizAdyacencia();
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            campo[i][j] = equipoa[i][j];               // Equipo A (0-10).
+            campo[i + n][j + n] = equipob[i][j];       // Equipo B (11-21).
+        }
+    }
+
+    // Conectar delanteros del equipo A (8-10) con defensores del equipo B (11-15).
+    for (int i = 8; i <= 10; i++) {
+        for (int j = 11; j <= 15; j++) {
+            campo[i][j] = campo[j][i] = 1;
+            grafoCombinado.conectarNodo(
+                grafoCombinado.getListaAdyacencia().get(i),
+                grafoCombinado.getListaAdyacencia().get(j)
+            );
+        }
+    }
+
+    // Conectar delanteros del equipo B (19-21) con defensores del equipo A (0-4).
+    for (int i = 19; i <= 21; i++) {
+        for (int j = 0; j <= 4; j++) {
+            campo[i][j] = campo[j][i] = 1;
+            grafoCombinado.conectarNodo(
+                grafoCombinado.getListaAdyacencia().get(i),
+                grafoCombinado.getListaAdyacencia().get(j)
+            );
+        }
+    }
+
+    // Conectar mediocampistas entre equipos (5-7 del A con 16-18 del B).
+    for (int i = 5; i <= 7; i++) {
+        for (int j = 16; j <= 18; j++) {
+            campo[i][j] = campo[j][i] = 1;
+            grafoCombinado.conectarNodo(
+                grafoCombinado.getListaAdyacencia().get(i),
+                grafoCombinado.getListaAdyacencia().get(j)
+            );
+        }
+    }
+
+    // Conectar porteros con sus defensores.
+    for (int i = 1; i <= 4; i++) {
+        campo[0][i] = campo[i][0] = 1;
+        grafoCombinado.conectarNodo(
+            grafoCombinado.getListaAdyacencia().get(0),
+            grafoCombinado.getListaAdyacencia().get(i)
+        );
+    }
+
+    for (int i = 12; i <= 15; i++) {
+        campo[11][i] = campo[i][11] = 1;
+        grafoCombinado.conectarNodo(
+            grafoCombinado.getListaAdyacencia().get(11),
+            grafoCombinado.getListaAdyacencia().get(i)
+        );
+    }
+
+    return grafoCombinado;
+}
+
+
+    public void iniciop(ArrayList<Jugador> equipoA, ArrayList<Jugador> equipoB, int[][] matrizPartido) {//Inicia el partido
         ThreadLocalRandom tlr = ThreadLocalRandom.current();
         ArrayList<Jugador> equipoInicial = tlr.nextBoolean() ? equipoA : equipoB;
 
