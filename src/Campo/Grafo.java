@@ -22,27 +22,30 @@ public class Grafo {
         this.listaAdyacencia = new ArrayList();
     }
 
-    public void addNodo(Jugador j) {
-        Nodo nodo = new Nodo(j);
+    public void addNodo(Nodo nodo) {
         this.listaAdyacencia.add(nodo);
     }
 
+    public int[][] getMatrizAdyacencia() {
+        return matrizAdyacencia;
+    }
+    
     public void conectarNodo(Nodo v1, Nodo v2) {
         if (this.matrizAdyacencia == null) {
-            this.matrizAdyacencia = new int[listaAdyacencia.size()][listaAdyacencia.size()];
+            this.matrizAdyacencia = new int[listaAdyacencia.size()*2][listaAdyacencia.size()*2];
         }
         v1.agregarAdyacentes(v2);
         v2.agregarAdyacentes(v1);
         this.matrizAdyacencia[v1.getGrado()][v2.getGrado()] = 1;
         this.matrizAdyacencia[v2.getGrado()][v1.getGrado()] = 1;
-
+        
     }
 
     public void imprimir() {
         //Lista
         System.out.println("Lista de adyancencia");
         for (Nodo v : listaAdyacencia) {
-            System.out.println(" | " + v + "|");
+            System.out.println(" | " + v.getJugador().toString() + "|");
         }
         System.out.println("");
 
@@ -55,9 +58,12 @@ public class Grafo {
         }
     }
 
-    public int[][] estrategiasP(int e, ArrayList<Jugador> equipo) {
-        int n = equipo.size();  // Número de jugadores (11).
-        int[][] posesion = new int[n][n];  // Matriz de adyacencia 11x11.
+    public ArrayList<Nodo> getListaAdyacencia() {
+        return listaAdyacencia;
+    }
+
+    public int[][] matrizEstrategiasP(int e, ArrayList<Jugador> equipo) {
+        int[][] posesion = new int[equipo.size()][equipo.size()];  // Matriz de adyacencia 11x11.
 
         switch (e) {
             case 1:
@@ -99,7 +105,7 @@ public class Grafo {
                     }
                 }
 
-                imprimirP(posesion);  // Imprimir la matriz para verificar.
+                //imprimirP(posesion);  // Imprimir la matriz para verificar.
                 break;
 
             default:
@@ -165,76 +171,6 @@ public class Grafo {
 
         imprimirP(campo);  // Imprimir la matriz para verificar.
         return campo;
-    }
-
-    public boolean peleaB(int[][] campo) { //Lucha entre jugadores por el balor
-
-    }
-
-    public void iniciop(ArrayList<Jugador> equipoA, ArrayList<Jugador> equipoB, int[][] matrizPartido) {
-        ThreadLocalRandom tlr = ThreadLocalRandom.current();
-        ArrayList<Jugador> equipoInicial = tlr.nextBoolean() ? equipoA : equipoB;
-        
-        int rnum = tlr.nextInt(8, 11);  // Seleccionar un delantero aleatorio.
-
-        Jugador jugadorInicial = equipoInicial.get(rnum);
-        jugadorInicial.setBalon(true);
-        System.out.println("Saca el equipo " + (equipoInicial == equipoA ? "A" : "B") + ": " + jugadorInicial.getNombre());
-
-        // Iniciar la jugada desde el jugador seleccionado.
-        cercaniaj(jugadorInicial, equipoInicial, matrizPartido);
-    }
-
-    public void cercaniaj(Jugador jugadorActual, ArrayList<Jugador> equipo, int[][] matrizAdyacencia) {
-        if (!jugadorActual.isBalon()) {
-            System.out.println(jugadorActual.getNombre() + " no tiene el balón.");
-            return;
-        }
-
-        System.out.println(jugadorActual.getNombre() + " tiene el balón.");
-
-        // Buscar el primer jugador cercano disponible para el pase.
-        int indiceActual = equipo.indexOf(jugadorActual);
-        for (int i = 0; i < matrizAdyacencia.length; i++) {
-            if (matrizAdyacencia[indiceActual][i] == 1 && i != indiceActual) {
-                Jugador jugadorCercano = equipo.get(i);
-                if (!jugadorCercano.isPortero()) {
-                    pase(jugadorActual, jugadorCercano, equipo, matrizAdyacencia);
-                    return;
-                }
-            }
-        }
-
-        System.out.println("No hay jugadores disponibles para el pase.");
-    }
-
-    public void pase(Jugador desde, Jugador hacia, ArrayList<Jugador> equipo, int[][] matrizAdyacencia) {
-        System.out.println(desde.getNombre() + " pasa el balón a " + hacia.getNombre());
-        desde.setBalon(false);
-        hacia.setBalon(true);
-
-        if (esDelantero(hacia, equipo)) {
-            disparo(hacia);
-        } else {
-            cercaniaj(hacia, equipo, matrizAdyacencia);  // Continuar la jugada recursivamente.
-        }
-    }
-
-    public void disparo(Jugador delantero) {
-        System.out.println(delantero.getNombre() + " intenta un disparo a portería...");
-
-        // Simulación sencilla: si el remate es mayor a 70, se considera un gol.
-        if (delantero.getRemate() > 70) {
-            System.out.println("¡Gol de " + delantero.getNombre() + "!");
-        } else {
-            System.out.println("El disparo de " + delantero.getNombre() + " fue bloqueado.");
-        }
-    }
-
-    public boolean esDelantero(Jugador jugador, ArrayList<Jugador> equipo) {
-        // Consideramos como delanteros a los jugadores con índice entre 8 y 10.
-        int index = equipo.indexOf(jugador);
-        return index >= 8 && index <= 10;
     }
 
 //

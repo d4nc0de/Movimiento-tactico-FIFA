@@ -1,6 +1,7 @@
 package Main;
 
 import Archivo.CSV;
+import Campo.Campo;
 import Campo.Grafo;
 import Campo.Nodo;
 import Jugadores.Jugador;
@@ -8,6 +9,7 @@ import Jugadores.Jugador;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,43 +17,22 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        FlatDarkLaf.install();
-        String ruta = "C:\\Users\\lostw\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA\\assets\\CSV.csv";
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        String ruta1 = "C:\\Users\\lostw\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA\\assets\\equipo1.csv";
+        String ruta2 = "C:\\Users\\lostw\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA\\assets\\equipo2.csv";
         CSV tabla1 = new CSV();
-        tabla1.leerArchivo(ruta);
-
-
-
-        Grafo g = new Grafo();
+        CSV tabla2 = new CSV();
+        ArrayList<Jugador> equipo1 = new ArrayList();
+        ArrayList<Jugador> equipo2 = new ArrayList();
+        equipo1= tabla1.aggEquipo(ruta1);
+        equipo2= tabla2.aggEquipo(ruta2);
+        Campo campo= new Campo();
+        campo.armarGrafoA(equipo1);
+        //campo.armarGrafoB(equipo2);
+        
+        /*
         boolean w = false;
         Scanner sc = new Scanner(System.in);
-        ArrayList<Jugador> equipo1 = new ArrayList(); //Barca
-        ArrayList<Jugador> equipo2 = new ArrayList(); //Madrid
-
-        Jugador p1 = new Jugador("Ter Stegen", 20, 85, 50, true);  // Portero
-        Jugador p2 = new Jugador("Koundé", 60, 80, 85, false);      // Defensa
-        Jugador p3 = new Jugador("Christensen", 50, 85, 75, false); // Defensa
-        Jugador p4 = new Jugador("Balde", 70, 80, 90, false);       // Defensa
-        Jugador p5 = new Jugador("Araujo", 55, 82, 78, false);      // Defensa
-        Jugador p6 = new Jugador("Gavi", 75, 88, 85, false);        // Mediocampista
-        Jugador p7 = new Jugador("Frenkie de Jong", 70, 90, 80, false);  // Mediocampista
-        Jugador p8 = new Jugador("Pedri", 65, 90, 83, false);       // Mediocampista
-        Jugador p9 = new Jugador("Lewandowski", 92, 78, 75, false); // Delantero
-        Jugador p10 = new Jugador("Lamine Yamal", 85, 80, 82, false); // Delantero
-        Jugador p11 = new Jugador("Raphina", 80, 75, 88, false);  // Delantero
-
-        equipo1.add(p1);
-        equipo1.add(p2);
-        equipo1.add(p3);
-        equipo1.add(p4);
-        equipo1.add(p5);
-        equipo1.add(p6);
-        equipo1.add(p7);
-        equipo1.add(p8);
-        equipo1.add(p9);
-        equipo1.add(p10);
-        equipo1.add(p11);
 
         Jugador p12 = new Jugador("Kepa", 20, 85, 55, true);         // Portero
         Jugador p13 = new Jugador("Carvajal", 65, 78, 82, false);    // Defensa
@@ -86,9 +67,9 @@ public class Main {
                 + "4. Predeterminada");
         estrategia = sc.nextInt();
         int[][] barca = new int[equipo1.size()][equipo1.size()];
-
-        barca = g.estrategiasP(estrategia, equipo1);
-
+        
+        barca = g.matrizEstrategiasP(estrategia, equipo1);
+/*
         System.out.println("Selecciona la estrategia del rival: \n"
                 + "1. Posecion (4-3-3) \n"
                 + "2. ContraGolpe[Remate] (5-3-2)\n "
@@ -97,13 +78,13 @@ public class Main {
         estrategia = sc.nextInt();
         int[][] madrid = new int[equipo2.size()][equipo2.size()];
         
-        madrid = g.estrategiasP(estrategia, equipo2);
+        madrid = g.matrizEstrategiasP(estrategia, equipo2);
         System.out.println("------------");
         
         int n  = equipo1.size();
         int[][] partido = new int[n*2][n*2];
         g.unioneP(barca, madrid); //Crea la matriz de abyacencia con ambos equipos
-        
+        */
 
     }
 }

@@ -64,6 +64,10 @@ public class Jugador {
     public boolean isBalon() {
         return balon;
     }
+
+    public String toString() {
+    return "Nombre: "+getNombre()+"\nVelocidad: "+getVelocidad()+"\nPosesion: "+getPosecion()+"\nRemate: "+getRemate()+"\n";
+    }
     
     
     
