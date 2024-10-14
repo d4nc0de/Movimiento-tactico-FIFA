@@ -17,11 +17,20 @@ public class Grafo {
 
     private ArrayList<Nodo> listaAdyacencia;
     private int[][] matrizAdyacencia;
+    private boolean id;
 
     // Constructor que define el tamaño de la matriz en función del equipo
     public Grafo(int tamaño) {
         this.listaAdyacencia = new ArrayList<>();
         this.matrizAdyacencia = new int[tamaño][tamaño];
+    }
+
+    public boolean isId() {
+        return id;
+    }
+
+    public void setId(boolean id) {
+        this.id = id;
     }
 
     public void addNodo(Nodo nodo) {

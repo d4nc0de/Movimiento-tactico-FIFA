@@ -42,6 +42,8 @@ public class Main {
         // Imprimir el grafo combinado para verificar.
         System.out.println("Grafo combinado:");
         grafoCombinado.imprimir();
+        
+        //campo.iniciop(equipo1, equipo2, grafoCombinado.getMatrizAdyacencia());
     
 
 
