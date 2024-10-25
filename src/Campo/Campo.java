@@ -7,6 +7,7 @@ package Campo;
 import Jugadores.Jugador;
 import Campo.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -65,7 +66,7 @@ public class Campo {
 
     public Grafo unioneGrafo(Grafo equipoA, Grafo equipoB) {
         int n = equipoA.getListaAdyacencia().size();  // Tamaño del equipo (11).
-        Grafo grafoCombinado = new Grafo(n * 2);  // Grafo combinado (22 nodos).
+        Grafo grafoCombinado = new Grafo(equipoA.getListaAdyacencia().size() * 2);  // Grafo combinado (22 nodos).
 
         // Copiar los nodos de los equipos A y B al grafo combinado.
         for (int i = 0; i < n; i++) {
@@ -140,8 +141,10 @@ public class Campo {
         return grafoCombinado;
     }
 
-    public void iniciop(ArrayList<Jugador> equipoA, ArrayList<Jugador> equipoB, Grafo equipoa, Grafo equipob, Grafo partido) {//Inicia el partido
+    public void iniciop(ArrayList<Jugador> equipoA, ArrayList<Jugador> equipoB, Grafo equipoa, Grafo equipob, Grafo partido) {
+        //Inicia el partido
         boolean id = tlr.nextBoolean();
+
         ArrayList<Jugador> equipoInicial = new ArrayList<>();
         if (id) {
             equipoInicial = equipoA;
@@ -170,32 +173,45 @@ public class Campo {
         }
 
         System.out.println(jugadorActual.getNombre() + " tiene el balón.");
-        int[][] matrizjuego = new int[equipo.size()][equipo.size()];
-        // Buscar el primer jugador cercano disponible para el pase.
+        int[][] matrizjuego = partido.getMatrizAdyacencia();
         int indiceActual = equipo.indexOf(jugadorActual);
+
+        // Verificación del índice actual
+        if (indiceActual < 0 || indiceActual >= equipo.size()) {
+            System.out.println("El jugador actual no se encuentra en el equipo.");
+            return;
+        }
+
+        boolean hayJugadorCercano = false;
+
         for (int i = 0; i < matrizjuego.length; i++) {
-            if (matrizjuego[indiceActual][i] == 1 && i != indiceActual) {
+            // Verifica que el índice no esté fuera de límites
+            if (i < equipo.size() && matrizjuego[indiceActual][i] == 1 && i != indiceActual) {
                 Jugador jugadorCercano = equipo.get(i);
-                if (!jugadorCercano.isPortero()) {
+                // Asegúrate de que no sea un portero y que sea del mismo equipo
+                if (!jugadorCercano.isPortero() && jugadorCercano.getEquipo() == jugadorActual.getEquipo()) {
+                    System.out.println("Pasando el balón a " + jugadorCercano.getNombre());
                     pase(jugadorActual, jugadorCercano, partido);
                     return;
                 }
-            } else {
-                System.out.println("No hay jugadores disponibles para el pase.");
+                hayJugadorCercano = true; // Cambiar a true si hay un jugador cercano
             }
         }
 
+        if (!hayJugadorCercano) {
+            System.out.println("No hay jugadores disponibles para el pase.");
+        }
     }
 
     public void pase(Jugador desde, Jugador hacia, Grafo equipo) {
-        
+
         System.out.println(desde.getNombre() + " pasa el balón a " + hacia.getNombre());
         desde.setBalon(false);
         hacia.setBalon(true);
         if (esDelantero(hacia, equipo.getListaAdyacencia())) {
             disparo(hacia, equipo.getListaAdyacencia());
         } else {
-            cercaniaj(hacia, equipo.getListaAdyacencia(), equipo.getMatrizAdyacencia());  // Continuar la jugada recursivamente.
+            //cercaniaj(hacia, equipo.getListaAdyacencia(), equipo.getMatrizAdyacencia());  // Continuar la jugada recursivamente.
         }
     }
 
@@ -212,16 +228,15 @@ public class Campo {
         }
     }
 
-public boolean pelea(Jugador j1, Jugador j2) {
-    
-    int habilidadJ1 = j1.getDefensa() + tlr.nextInt(20);
-    int habilidadJ2 = j2.getPosecion() + tlr.nextInt(20);
+    public boolean pelea(Jugador j1, Jugador j2) {
 
-    boolean ganador = habilidadJ1 > habilidadJ2;
-    System.out.println((ganador ? j1.getNombre() : j2.getNombre()) + " gana la pelea.");
-    return ganador;
-}
+        int habilidadJ1 = j1.getDefensa() + tlr.nextInt(20);
+        int habilidadJ2 = j2.getPosecion() + tlr.nextInt(20);
 
+        boolean ganador = habilidadJ1 > habilidadJ2;
+        System.out.println((ganador ? j1.getNombre() : j2.getNombre()) + " gana la pelea.");
+        return ganador;
+    }
 
     public boolean esDelantero(Jugador jugador, ArrayList<Nodo> equipo) {
         // Consideramos como delanteros a los jugadores con índice entre 8 y 10.

@@ -5,7 +5,7 @@ import Campo.*;
 import Jugadores.Jugador;
 //import javax.swing.JOptionPane;
 
-import com.formdev.flatlaf.FlatDarkLaf;
+//import com.formdev.flatlaf.FlatDarkLaf;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
         // Rutas de los archivos CSV de cada equipo.
-        String ruta1 = "C:\\Users\\tuori\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA_1\\assets\\equipo1.csv";
-        String ruta2 = "C:\\Users\\tuori\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA_1\\assets\\equipo2.csv";
+        String ruta1 = "C:\\Users\\lostw\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA\\assets\\equipo1.csv";
+        String ruta2 = "C:\\Users\\lostw\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA\\assets\\equipo2.csv";
 
         // Inicializar las instancias para leer los equipos desde los CSV.
         CSV tabla1 = new CSV();
@@ -33,8 +33,8 @@ public class Main {
         Campo campo = new Campo();
 
         // Construir los grafos de cada equipo por separado.
-        Grafo grafoEquipoA = campo.armarGrafoP(equipo1,true);
-        Grafo grafoEquipoB = campo.armarGrafoP(equipo2,false);
+        Grafo grafoEquipoA = campo.armarGrafoP(equipo1, true);
+        Grafo grafoEquipoB = campo.armarGrafoP(equipo2, false);
 
         // Combinar ambos grafos en uno solo.
         Grafo grafoCombinado = campo.unioneGrafo(grafoEquipoA, grafoEquipoB);
@@ -42,12 +42,7 @@ public class Main {
         // Imprimir el grafo combinado para verificar.
         System.out.println("Grafo combinado:");
         grafoCombinado.imprimir();
-        
-        //campo.iniciop(equipo1, equipo2, grafoCombinado.getMatrizAdyacencia());
-    
-
-
-        
+        campo.iniciop(equipo1, equipo2, grafoEquipoA, grafoEquipoB, grafoCombinado);
         
         
         /*
@@ -104,7 +99,6 @@ public class Main {
         int n  = equipo1.size();
         int[][] partido = new int[n*2][n*2];
         g.unioneP(barca, madrid); //Crea la matriz de abyacencia con ambos equipos
-        */
-
+         */
     }
 }

@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Jugadores;
-
-/**
- *
- * @author tuori
- */
 public class Jugador {
     
     private String nombre;
@@ -17,6 +8,7 @@ public class Jugador {
     private int defensa;
     private boolean portero;
     public boolean balon;
+    public String equipo;
 
     public Jugador(String nombre, int velocidad, int remate, int posecion,boolean portero) {
         this.nombre = nombre;
@@ -28,6 +20,12 @@ public class Jugador {
         this.balon = false;
     }
 
+    public String getEquipo() {
+        return equipo;
+    }
+
+    
+    
     public boolean isPortero() {
         return portero;
     }
