@@ -195,7 +195,7 @@ public class Campo {
         if (esDelantero(hacia, equipo.getListaAdyacencia())) {
             disparo(hacia, equipo.getListaAdyacencia());
         } else {
-            cercaniaj(hacia, equipo.getListaAdyacencia(), equipo.getMatrizAdyacencia());  // Continuar la jugada recursivamente.
+            //cercaniaj(hacia, equipo.getListaAdyacencia(), equipo.getMatrizAdyacencia());  // Continuar la jugada recursivamente.
         }
     }
 

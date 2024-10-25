@@ -18,8 +18,8 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
         // Rutas de los archivos CSV de cada equipo.
-        String ruta1 = "C:\\Users\\tuori\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA_1\\assets\\equipo1.csv";
-        String ruta2 = "C:\\Users\\tuori\\OneDrive\\Documentos\\GitHub\\Movimiento-tactico-FIFA_1\\assets\\equipo2.csv";
+        String ruta1 = "C:\\Users\\pc\\Documents\\GitHub\\Movimiento-tactico-FIFA\\assets\\equipo1.csv";
+        String ruta2 = "C:\\Users\\pc\\Documents\\GitHub\\Movimiento-tactico-FIFA\\assets\\equipo2.csv";
 
         // Inicializar las instancias para leer los equipos desde los CSV.
         CSV tabla1 = new CSV();
