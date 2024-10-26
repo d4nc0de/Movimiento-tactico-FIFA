@@ -7,6 +7,7 @@ package Campo;
 import Jugadores.Jugador;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -168,13 +169,17 @@ public class Grafo {
         return posesion;
     }
 
-    public static void caminos(int estrategia, Grafo grafo, ArrayList<Jugador> equipo, int nodoInicio) {
-        int V = grafo.getListaAdyacencia().size(); //Numero de Nodos
-        int[] distancias = new int[V]; //Tam vector
+    public static ArrayList<Nodo> caminos(int estrategia, Grafo grafo, ArrayList<Jugador> equipo, int nodoInicio) {
+        int V = grafo.getListaAdyacencia().size(); // Número de Nodos
+        ArrayList<Nodo> camino = new ArrayList();
+        int[] distancias = new int[V]; // Vector de distancias
         Arrays.fill(distancias, Integer.MAX_VALUE); // Inicializamos todas las distancias a infinito.
         distancias[nodoInicio] = 0; // La distancia del nodo inicial es 0.
 
-        PriorityQueue<Integer> colaPrioridad = new PriorityQueue<>((a, b) -> distancias[a] - distancias[b]); //Cola de prioridad
+        int[] anterior = new int[V]; // Arreglo para almacenar el nodo anterior
+        Arrays.fill(anterior, -1); // Inicializar con -1 (sin predecesor)
+
+        PriorityQueue<Integer> colaPrioridad = new PriorityQueue<>((a, b) -> distancias[a] - distancias[b]); // Cola de prioridad
         colaPrioridad.add(nodoInicio);
 
         while (!colaPrioridad.isEmpty()) {
@@ -192,6 +197,7 @@ public class Grafo {
                 // Relajación de arista.
                 if (distancias[u] + peso < distancias[v]) {
                     distancias[v] = distancias[u] + peso;
+                    anterior[v] = u; // Actualizar el nodo anterior
                     colaPrioridad.add(v);
                 }
             }
@@ -201,8 +207,35 @@ public class Grafo {
         for (int i = 0; i < V; i++) {
             System.out.println("Distancia mínima desde " + nodoInicio + " hasta " + i + ": " + distancias[i]);
         }
+
+        for (int i = 0; i < V; i++) {
+            if (distancias[i] < Integer.MAX_VALUE) { // Solo si hay un camino
+                camino = reconstruirCamino(grafo, anterior, nodoInicio, i);
+            }
+        }
+        for (int j = 0; j < camino.size(); j++) {
+            System.out.println(camino.get(j).getJugador().toString());
+        }
+        return camino;
     }
 
+    private static ArrayList<Nodo> reconstruirCamino(Grafo grafo, int[] anterior, int inicio, int destino) {
+        ArrayList<Nodo> camino = new ArrayList<>(); // Lista para almacenar el camino
+
+        // Comenzar desde el nodo destino y retroceder hasta el nodo inicio
+        for (int nodoActual = destino; nodoActual != -1; nodoActual = anterior[nodoActual]) {
+            // Obtener el nodo correspondiente del grafo y añadirlo a la lista
+            Nodo nodo = grafo.getListaAdyacencia().get(nodoActual);
+            camino.add(nodo); // Agregar el nodo a la lista
+        }
+
+        // Invertir el camino para que esté en el orden correcto (de inicio a destino)
+        Collections.reverse(camino);
+
+        return camino; // Devolver el camino desde el nodo inicio hasta el destino
+    }
+    
+    
 // Método para calcular el peso entre dos nodos basándose en la estrategia.
     private static int calcularPeso(int estrategia, Jugador jugador1, Jugador jugador2) {
         int peso = 0;

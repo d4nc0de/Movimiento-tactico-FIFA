@@ -26,7 +26,7 @@ public class CSV {
             partes = linea.split(",");
             //imprimirLinea();
             Jugador jugador;
-            
+
             jugador = new Jugador(partes[0], Integer.parseInt(partes[1]), Integer.parseInt(partes[2]), Integer.parseInt(partes[3]));
             equipo.add(jugador);
 
