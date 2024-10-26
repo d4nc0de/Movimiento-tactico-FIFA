@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Campo;
 
 import Jugadores.Jugador;
@@ -21,14 +17,14 @@ public class Campo {
     ThreadLocalRandom tlr = ThreadLocalRandom.current();
 
     // Método para armar grafos para cada equipo por separado
-    public Grafo armarGrafoP(ArrayList<Jugador> equipo, boolean Equipo) {
+    public Grafo armarGrafoP(int e ,ArrayList<Jugador> equipo, boolean Equipo) {
         Grafo grafo = new Grafo(equipo.size());  // Grafo con tamaño dinámico.
         for (Jugador jugador : equipo) {
             Nodo nodo = new Nodo(jugador);
             grafo.addNodo(nodo);
         }
 
-        int[][] estrategia = grafo.matrizEstrategiasP(1, equipo);
+        int[][] estrategia = grafo.matrizEstrategiasP(e , equipo);
         ArrayList<Nodo> lista = grafo.getListaAdyacencia();
 
         // Conectar nodos según la estrategia
