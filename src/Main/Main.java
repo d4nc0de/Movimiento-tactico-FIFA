@@ -31,32 +31,18 @@ public class Main {
 
         // Crear el campo donde se armarán los grafos.
         Campo campo = new Campo();
-       
 
         // Construir los grafos de cada equipo por separado.
-        Grafo grafoEquipoA = campo.armarGrafoP(equipo1,true);
-        Grafo grafoEquipoB = campo.armarGrafoP(equipo2,false);
-        
         //campo.iniciop(equipo1, equipo2, grafoCombinado.getMatrizAdyacencia());     
         boolean w = false;
         Scanner sc = new Scanner(System.in);
 
         //Seleccion de la estrategia para formar el grafo    
-        int estrategia = 0;
+        int estrategia = 1;
 
-
-        System.out.println("Selecciona la estrategia: \n"
-                + "1. Posecion (4-3-3) \n"
-                + "2. ContraGolpe[Remate] (5-3-2)\n "
-                + "3. Presion [Velocidad] (4-4-2).\n"
-                + "4. Predeterminada");
-        estrategia = sc.nextInt();
-        int[][] barca = new int[equipo2.size()][equipo2.size()];
-        
-        barca = g.matrizEstrategiasP(estrategia, equipo2);
-        System.out.println("------------");
-
-        
-
+        Grafo grafoEquipoA = campo.armarGrafoP(estrategia, equipo1, true);
+        Grafo grafoEquipoB = campo.armarGrafoP(estrategia, equipo2, false);
+        // Calcular caminos mínimos desde el nodo 0 (Portero).
+        Grafo.caminos(1, grafoEquipoA, equipo1, 0);
     }
 }
